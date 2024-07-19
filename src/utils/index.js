@@ -182,6 +182,27 @@ const sleep = async (ms) => {
 }
 
 /**
+ * Message#Unknown[🗣Contact<aicg-创世纪>@👥Room<Apipost技术交流&摸鱼186群>]
+ * 解析消息
+ */
+
+const msgFormat = (message = '') => {
+  const regex = /Message#Unknown\[🗣Contact<(.+?)>@👥Room<(.+?)>\]/
+  const match = message.match(regex)
+
+  if (match) {
+    const contactName = match[1]
+    const roomName = match[2]
+    console.log('Contact:', contactName)
+    console.log('Room:', roomName)
+    return {
+      contactName,
+      roomName
+    }
+  }
+}
+
+/**
  * 删除登录缓存文件
  */
 // const deleteMemoryCard = () => {
@@ -201,6 +222,7 @@ module.exports = {
   downloadFile,
   getMediaFromUrl,
   getBufferFile,
+  msgFormat,
   generateToken,
   parseJsonLikeStr,
   tryConvertCnCharToUtf8Char,

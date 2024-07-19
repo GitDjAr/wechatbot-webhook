@@ -108,11 +108,43 @@ module.exports = function init() {
     // 收到消息事件
     .on('message', async (message) => {
       const msg = message.toString()
-      Utils.logger.info(`Message: ${msg}`)
-      const opt = await gptSendMsg(msg.split('>]')[1])
+      const obj = Utils.msgFormat(msg)
+      // // @ts-ignore
+      const list = ['test', '潜']
+      if (
+        list.includes(obj?.roomName || '')
+        // excludeList.includes(obj?.roomName)
+      ) {
+        console.log(
+          '🚀 ~ .on ~ message:',
+          Utils.msgFormat(msg),
+          msg,
+          obj,
+          message,
+          message.room()
+        )
 
-      console.log('🚀 ~ .on ~ opt:', opt)
-      message.say(opt)
+        Utils.logger.info(`Message: ${msg}`)
+        const opt = await gptSendMsg(msg.split('>]')[1])
+
+        console.log(
+          '🚀 ~ .on ~ opt:',
+          opt,
+          list.includes(obj?.roomName || '')
+          // message.payload.roomId ===
+          //   '@@667493f8093518924f06dd6635a18ca9ae9af933857339fe566ae43b69ffa10b'
+        )
+        message.say(opt.msg)
+      }
+      const contact = message.talker()
+      const text = message.text()
+      const room = message.room()
+      if (room) {
+        const topic = await room.topic()
+        console.log(`Room: ${topic} Contact: ${contact.name()} Text: ${text}`)
+      } else {
+        console.log(`Contact: ${contact.name()} Text: ${text}`)
+      }
       Service.onRecvdMessage(message, bot).catch((e) => {
         Utils.logger.error('向 RECVD_MSG_API 上报 message 事件出错：', e)
       })
