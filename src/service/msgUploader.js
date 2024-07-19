@@ -68,7 +68,7 @@ async function sendMsg2RecvdApi(msg) {
       // @ts-expect-error wechaty定义问题，数据在payload里
       alias: item.payload.alias
     }))
-    // we have memberList already
+    // 我们已经有了 memberList 删除原来的 memberIdList
     if (roomInfo.payload && 'memberIdList' in roomInfo.payload) {
       //@ts-expect-errors 这里每次返回的都是新对象
       delete roomInfo.payload.memberIdList
@@ -194,9 +194,9 @@ async function sendMsg2RecvdApi(msg) {
 
   // if (!passed) return
 
-  Utils.logger.info('starting fetching api: ' + webhookUrl)
+  Utils.logger.info('开始获取api：' + webhookUrl)
   //@ts-expect-errors form-data 未定义的私有属性
-  Utils.logger.debug('fetching payload:', formData._streams)
+  Utils.logger.debug('获取有效负载：', formData._streams)
   /**@type {Response} */
   let response
 
@@ -209,7 +209,7 @@ async function sendMsg2RecvdApi(msg) {
 
     if (!response?.ok) {
       Utils.logger.error(
-        `HTTP error When trying to send Data to RecvdApi: ${response?.status}`
+        `尝试将数据发送到 RecvdApi 时出现 HTTP 错误: ${response?.status}`
       )
     }
   } catch (e) {

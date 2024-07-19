@@ -18,7 +18,7 @@ function registerPushHook({ app, bot }) {
     } catch (e) {
       return c.json({
         success: false,
-        message: 'request body is not a valid json! checkout please.'
+        message: '请求正文不是有效的 json！请检查。'
       })
     }
 

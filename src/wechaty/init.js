@@ -2,6 +2,7 @@ const { version } = require('../../package.json')
 const { WechatyBuilder } = require('wechaty')
 const { SystemEvent } = require('../utils/msg.js')
 const Service = require('../service')
+const { gptSendMsg } = require('../service/chatgpt/index')
 const Utils = require('../utils/index')
 const chalk = require('chalk')
 const {
@@ -96,7 +97,7 @@ module.exports = function init() {
       cacheTool.get('room', room.id) && cacheTool.del('room', room.id)
     })
 
-    // 有人离开群（ If someone leaves the room by themselves, wechat will not notice other people in the room,）
+    // 人员离开群（如果有人自行离开房间，微信不会注意到房间里的其他人，）
     .on('room-leave', async (room, leaver) => {
       Utils.logger.info(
         `Room ${await room.topic()} ${leaver} leaved from this room`
@@ -106,7 +107,12 @@ module.exports = function init() {
 
     // 收到消息事件
     .on('message', async (message) => {
-      Utils.logger.info(`Message: ${message.toString()}`)
+      const msg = message.toString()
+      Utils.logger.info(`Message: ${msg}`)
+      const opt = await gptSendMsg(msg.split('>]')[1])
+
+      console.log('🚀 ~ .on ~ opt:', opt)
+      message.say(opt)
       Service.onRecvdMessage(message, bot).catch((e) => {
         Utils.logger.error('向 RECVD_MSG_API 上报 message 事件出错：', e)
       })

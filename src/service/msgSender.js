@@ -630,7 +630,7 @@ const handleResSendMsg = async ({
 
       // 同意且包含回复信息
       if (success === true && data !== undefined) {
-        await Utils.sleep(1000)
+        await Utils.sleep(1000 + Math.random() * 5000)
         recvdApiReplyHandler(data, {
           //@ts-expect-errors 重载不是很好使，手动判断
           msgInstance: friendship.contact(),
@@ -644,7 +644,7 @@ const handleResSendMsg = async ({
     default:
       //进入该分支一定有msgInstance，判断是为了让 ts happy
       if (success === true && data !== undefined && msgInstance) {
-        await Utils.sleep(1000)
+        await Utils.sleep(1000 + Math.random() * 5000)
         //@ts-ignore
         isRoom = !!msgInstance.payload?.topic
         //@ts-ignore

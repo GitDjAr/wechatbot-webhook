@@ -11,13 +11,15 @@ if (!process.env.homeEnvCfg) {
     appenders: {
       out: {
         type: 'stdout',
+        encoding: 'utf-8',
         layout: {
           type: 'pattern',
-          pattern: '%[[%d] [%p] - %m %]'
+          c: '%[[%d] [%p] - %m %]'
         }
       },
       file: {
         type: 'dateFile',
+        encoding: 'utf-8',
         filename: 'log/app.log',
         pattern: 'yyyy-MM-dd',
         level: 'trace',
@@ -29,6 +31,7 @@ if (!process.env.homeEnvCfg) {
         }
       },
       logFilter: {
+        encoding: 'utf-8',
         type: 'logLevelFilter',
         appender: 'out',
         level: process.env.LOG_LEVEL || 'info'

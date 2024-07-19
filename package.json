@@ -13,6 +13,7 @@
   "scripts": {
     "prestart": "node ./scripts/preStart",
     "start": "node main",
+    "dev": "nodemon main --watch *.js *.json",
     "build:cli": "pnpm --filter wechatbot-webhook run build"
   },
   "engines": {
@@ -51,6 +52,7 @@
     "log4js": "^6.9.1",
     "mime": "^3.0.0",
     "node-fetch-commonjs": "^3.3.2",
+    "nodemon": "^3.1.4",
     "qrcode-terminal": "^0.12.0",
     "wechaty": "^1.20.2"
   },
